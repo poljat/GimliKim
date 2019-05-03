@@ -4,7 +4,7 @@ import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import { AsyncStorage } from "react-native"
 
-import {getUser} from './utils/MediaAPI';
+import {getUser,getAllQueries} from './utils/MediaAPI';
 
 
  class App extends React.Component {
@@ -37,7 +37,15 @@ import {getUser} from './utils/MediaAPI';
          })*/
 
      };
+     getQueries=()=>{
+         getAllQueries().then(pics =>{
+             this.setState({
+                 items:pics})
+
+         })
+     }
    componentDidMount() {
+         this.getQueries()
      if (this.state.user === null && AsyncStorage.getItem('token') !== null) {
        getUser(AsyncStorage.getItem('token')).then(response => {
          this.setUser(response);

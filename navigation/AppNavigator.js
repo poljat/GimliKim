@@ -3,6 +3,7 @@ import { createAppContainer, createSwitchNavigator, createStackNavigator } from 
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import MainTabNavigator from './MainTabNavigator';
 import AuthNavigator from'./AuthNavigator';
+import QueryScreen from '../screens/QueryScreen'
 
 
 export default createAppContainer(createSwitchNavigator({
@@ -13,6 +14,7 @@ export default createAppContainer(createSwitchNavigator({
   AuthLoading: AuthLoadingScreen,
       App: MainTabNavigator,
     Auth: AuthNavigator ,
+    Query: QueryScreen
 },
 {
   initialRouteName: 'AuthLoading',

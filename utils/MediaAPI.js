@@ -1,17 +1,17 @@
 
 const url = 'http://media.mw.metropolia.fi/wbma/';
 
-const getAllMedia = () => {
-    return fetch(url +'media').then(res => {
+const getAllQueries = () => {
+    return fetch(url +'tags/GimliKim').then(res => {
         return res.json()
     }).then((result) => {
-        console.log(result);
+        console.log('moi',result);
         return Promise.all(result.map(item => {
             return fetch(url +'media/' + item.file_id).then(response => {
                 return response.json();
             });
         })).then(items => {
-            console.log(items);
+            console.log('moi2',items);
             return items;
             // save items to state
         });
@@ -176,7 +176,7 @@ const deleteImg = (id) => {
 
 
 
-export{getAllMedia}
+export{getAllQueries}
 export{getSingleMedia}
 export{getUserMedia}
 export{login}
