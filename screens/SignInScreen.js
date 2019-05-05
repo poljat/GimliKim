@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
-import { Alert,  Text, TouchableOpacity, TextInput, View, StyleSheet, AsyncStorage,Button,} from 'react-native';
+import {Alert, Text, TouchableOpacity, TextInput, View, StyleSheet, AsyncStorage, Button, Image,} from 'react-native';
 import {getUser, login} from '../utils/MediaAPI';
 
 
 export default class SignInScreen extends Component {
-
+    static navigationOptions = {
+ header:null,
+    };
     state = {
         user: {
             username: '',

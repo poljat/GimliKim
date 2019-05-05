@@ -38,13 +38,16 @@ const styles = StyleSheet.create({
 
 
 class QueryBox extends Component {
-
+openQuery=()=>{
+    console.log('avataan')
+    this.navigate
+}
 
     render() {
         console.log('ny pijäs thoimia');
 console.log(this.props.items);
         return this.props.items.map((items, i) => (
-            <TouchableOpacity  key={i} style={styles.view}  onPressonPress={()=>this.nav} >
+            <TouchableOpacity  key={i} style={styles.view}  onPressonPress={()=>this.openQuery()} >
 
                         <View style={styles.pic}>
                     <Image style={{width:80, height: 80}} source={{uri:'http://media.mw.metropolia.fi/wbma/uploads/' + items.thumbnails.w160}} />

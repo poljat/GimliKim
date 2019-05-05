@@ -13,6 +13,10 @@ import QueryBox from '../components/QueryBox'
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'Home',
+    headerRight:<Image style={{width:80, height: 80}} source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}} />,
+    headerStyle:{
+      flexDirection: 'row'
+    }
   };
 
 navigate = ()=>{
@@ -22,6 +26,8 @@ navigate = ()=>{
   render() {
     console.log('home')
     console.log(this.props.screenProps.queries)
+    console.log('user')
+    console.log(this.props.screenProps.user)
 
     return (
 

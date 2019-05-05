@@ -4,7 +4,9 @@ import {login, register, getUser, checkUser} from '../utils/MediaAPI';
 
 
 export default class SignInScreen extends Component {
-
+    static navigationOptions = {
+        header:null,
+    };
     state = {
         user: {
             username: '',
