@@ -93,10 +93,11 @@ import {getUser,getAllQueries} from './utils/MediaAPI';
     } else {
       return (
         <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+          {Platform.OS === 'android' && <StatusBar barStyle="default" />}
           <AppNavigator screenProps={{
               setUser:this.setUser,
-          state:this.state}} />
+          user:this.state.user,
+          queries:this.state.items}} />
         </View>
       );
     }
@@ -110,5 +111,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+      margin:0,
+
   },
 });

@@ -9,41 +9,50 @@ import {
     TouchableOpacity,
     View,Button
 } from 'react-native';
-
 import {getDescription} from "../utils/MediaAPI";
 
-const style = {
-    maxHeight: "30%",
-    maxWidth: "90%",
-    minHeight: "90%",
-    minWidth: "90%",
-    margin: "1em",
-    textAlign: 'center',
-    display: 'inline-block',
-};
+
+const styles = StyleSheet.create({
+    view:{
+        minHeight: 90,
+        minWidth: 90,
+        backgroundColor:'purple',
+        margin:1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        padding: 2,
+        alignItems: 'stretch'
+    },
+    text:{
+        flex:3,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    pic:{
+        flex:1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
+});
 
 
 class QueryBox extends Component {
 
 
     render() {
+        console.log('ny pijäs thoimia');
+console.log(this.props.items);
+        return this.props.items.map((items, i) => (
+            <TouchableOpacity  key={i} style={styles.view}  onPressonPress={()=>this.nav} >
 
-        return this.props.item.map((items, i) => (
-
-
-                <TouchableOpacity onPressonPress={()=>this.props.navigation.navigate('Query')} style={style}>
+                        <View style={styles.pic}>
+                    <Image style={{width:80, height: 80}} source={{uri:'http://media.mw.metropolia.fi/wbma/uploads/' + items.thumbnails.w160}} />
+                        </View>
+                    <View style={styles.text}>
                     <Text h1>{items.title}</Text>
-                    {(items.thumbnails !== undefined
-                        &&
-                        <Image source={{uri:'http://media.mw.metropolia.fi/wbma/uploads/' + items.thumbnails.w160}} alt={"kuva"}/>)
-                    ||
-                    (items.screenshot !== undefined
-                        &&
-                        <Image source={{uri:'http://media.mw.metropolia.fi/wbma/uploads/' + items.screenshot}} alt={"kuva"}/>)
-                    ||
-                    <Image source={{uri:"http://placekitten.com/400/400"}} alt={items.title}/>
-                    }
                     <Text>{getDescription(items.description)}</Text>
+                    </View>
 
                 </TouchableOpacity>
 
@@ -51,7 +60,8 @@ class QueryBox extends Component {
     }
 }
 QueryBox.propTypes ={
-    item: PropTypes.array
+    items: PropTypes.array,
+    nav:PropTypes.func
 }
 
 export default QueryBox;

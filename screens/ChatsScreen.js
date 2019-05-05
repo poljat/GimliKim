@@ -8,7 +8,7 @@ export default class ChatsScreen extends React.Component {
   };
   state={
     moi:  this.props.screenProps,
-  }
+}
   render() {
     console.log(this.state)
     return (

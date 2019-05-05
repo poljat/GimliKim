@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { Alert,  Text, TouchableOpacity, TextInput, View, StyleSheet, AsyncStorage,Button,} from 'react-native';
-import {login} from '../utils/MediaAPI';
+import {getUser, login} from '../utils/MediaAPI';
 
 
 export default class SignInScreen extends Component {
@@ -53,8 +53,21 @@ export default class SignInScreen extends Component {
             },}));
     };
 
+    componentDidMount() {
+        if (this.state.user === null && AsyncStorage.getItem('token') !== null) {
+            getUser(AsyncStorage.getItem('token')).then(response => {
+                this.setUser(response);
+                console.log(this.state.user)
+                console.log('moiieliii')
+            });
+        }
+
+
+    }
+
+
     render() {
-        console.log(this.props.screenProps)
+
         return (
 
             <View style={styles.container}>

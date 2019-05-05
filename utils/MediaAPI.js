@@ -5,13 +5,11 @@ const getAllQueries = () => {
     return fetch(url +'tags/GimliKim').then(res => {
         return res.json()
     }).then((result) => {
-        console.log('moi',result);
         return Promise.all(result.map(item => {
             return fetch(url +'media/' + item.file_id).then(response => {
                 return response.json();
             });
         })).then(items => {
-            console.log('moi2',items);
             return items;
             // save items to state
         });
@@ -24,11 +22,9 @@ const getProfilePic = (profId) =>{
     return fetch( 'http://media.mw.metropolia.fi/wbma/tags/profile').then(response => {
         return response.json();
     }).then(profPic => {
-        console.log(profPic);
 
         for(let i=0; i < profPic.length; i ++ ){
             if(profPic[i].user_id === profId ){
-                console.log(profPic[i])
                 return profPic[i]
             }
         }
@@ -39,7 +35,6 @@ const getSingleMedia = (id) => {
     return fetch(url +'media/' + id).then(response => {
         return response.json();
     }).then(items => {
-        console.log(items);
         return items;
 // save items to state
     });

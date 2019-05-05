@@ -6,7 +6,6 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import ChatsScreen from '../screens/ChatsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import SignInScreen from "../screens/SignInScreen";
 
 console.log(this.props)
 const HomeStack = createStackNavigator({

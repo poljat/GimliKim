@@ -4,30 +4,32 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  View,Button,FlatList
+  View, Button, FlatList, Text, Image
 } from 'react-native';
 import QueryBox from '../components/QueryBox'
 
+
+
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
-    title: null,
+    title: 'Home',
   };
-  state = {
-    moi: this.props.screenProps,
-  }
 
+navigate = ()=>{
+  console.log('moikkuu')
+  this.props.navigation.navigate('Query')
+}
   render() {
-    console.log(this.state)
+    console.log('home')
+    console.log(this.props.screenProps.queries)
+
     return (
-        <View style={styles.container}>
-          <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-            <h1>Home</h1>
-            <FlatList>
-              <QueryBox item={this.props.item}/>
-            </FlatList>
-          </ScrollView>
+
+        <View >
+<QueryBox nav={this.navigate} items={this.props.screenProps.queries} />
         </View>
     );
+
   }
 }
 
