@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {
     Image,
@@ -7,32 +7,39 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    View,Button
+    View, Button
 } from 'react-native';
 import {getDescription} from "../utils/MediaAPI";
+import {Card, CardTitle, CardContent, CardAction, CardButton, CardImage} from 'react-native-cards';
+
+const mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
 
 const styles = StyleSheet.create({
-    view:{
+    view: {
         minHeight: 90,
         minWidth: 90,
-        backgroundColor:'purple',
-        margin:1,
+        backgroundColor: 'purple',
+        margin: 1,
         flexDirection: 'row',
         justifyContent: 'center',
         padding: 2,
         alignItems: 'stretch'
     },
-    text:{
-        flex:3,
+    text: {
+        flex: 3,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
     },
-    pic:{
-        flex:1,
+    pic: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    cardButton: {
+        flex: 1,
+        justifyContent: "space-between"
     }
 });
 
@@ -41,28 +48,44 @@ class QueryBox extends Component {
 
 
     render() {
-        console.log('ny pijäs thoimia');
-console.log(this.props.items);
+        console.log(this.props.items);
         return this.props.items.map((items, i) => (
-            <TouchableOpacity  key={i} style={styles.view}  onPressonPress={()=>this.nav} >
+            <Card key={i}>
+                <CardImage
+                    source={{uri: mediaUrl + items.thumbnails.w160}}
+                    title={items.title}
+                    description={items.description}
+                >
+                    <CardContent text={items.title}/>
+                    <CardContent text={items.description}/>
+                </CardImage>
 
-                        <View style={styles.pic}>
-                    <Image style={{width:80, height: 80}} source={{uri:'http://media.mw.metropolia.fi/wbma/uploads/' + items.thumbnails.w160}} />
-                        </View>
-                    <View style={styles.text}>
-                    <Text h1>{items.title}</Text>
-                    <Text>{getDescription(items.description)}</Text>
-                    </View>
 
-                </TouchableOpacity>
-
+                <CardAction
+                    style={styles.cardButton}
+                    separator={true}
+                    inColumn={false}>
+                    <CardButton
+                        onPress={() => console.log("UPVOTE")}
+                        title="Sharts"
+                        color="#FEB557"
+                    />
+                    <CardButton
+                        onPress={() => console.log("UPVOTE")}
+                        title="Upvote"
+                        color="#FEB557"
+                    />
+                </CardAction>
+            </Card>
         ));
+
     }
 }
-QueryBox.propTypes ={
+
+QueryBox.propTypes = {
     items: PropTypes.array,
-    nav:PropTypes.func
-}
+    nav: PropTypes.func
+};
 
 export default QueryBox;
 

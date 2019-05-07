@@ -7,7 +7,7 @@ import {
   View, Button, FlatList, Text, Image
 } from 'react-native';
 import QueryBox from '../components/QueryBox'
-
+import {SimpleAnimation} from "react-native-simple-animations";
 
 
 export default class HomeScreen extends React.Component {
@@ -15,25 +15,35 @@ export default class HomeScreen extends React.Component {
     title: 'Home',
   };
 
-navigate = ()=>{
-  console.log('moikkuu')
-  this.props.navigation.navigate('Query')
-}
+  navigate = () => {
+    console.log('moikkuu')
+    this.props.navigation.navigate('Query')
+  }
+
   render() {
     console.log('home')
     console.log(this.props.screenProps.queries)
 
     return (
+        <SimpleAnimation
+            delay={500}
+            fade
+            duration={1000}
+            friction={20}
+            tension={5}
+            distance={500}
+            movementType="spring"
+            direction="left"
+        >
 
-        <View >
-<QueryBox nav={this.navigate} items={this.props.screenProps.queries} />
-        </View>
+          <ScrollView>
+            <QueryBox nav={this.navigate} items={this.props.screenProps.queries}/>
+          </ScrollView>
+        </SimpleAnimation>
     );
 
   }
 }
-
-
 
 
 const styles = StyleSheet.create({
@@ -92,7 +102,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios: {
         shadowColor: 'black',
-        shadowOffset: { height: -3 },
+        shadowOffset: {height: -3},
         shadowOpacity: 0.1,
         shadowRadius: 3,
       },

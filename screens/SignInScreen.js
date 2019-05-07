@@ -10,13 +10,15 @@ import {
     View,
     StyleSheet,
     AsyncStorage,
-    Button,
+    Button, ScrollView,
 } from 'react-native';
 import {getUser, login} from '../utils/MediaAPI';
 import {LinearGradient} from 'expo';
 
-
 export default class SignInScreen extends Component {
+    static navigationOptions = {
+        header: null,
+    };
 
     state = {
         user: {
@@ -60,7 +62,7 @@ export default class SignInScreen extends Component {
     };
     handleUsernameChange = (text) => {
 
-        console.log(text)
+        console.log(text);
         this.setState(previousState => ({
             user: {
                 ...previousState.user, username: text,
@@ -84,6 +86,7 @@ export default class SignInScreen extends Component {
     render() {
 
         return (
+
             <LinearGradient
                 colors={["#56b69b", "#9eb8b3", "#9c7587"]}
                 style={{flex: 1}}

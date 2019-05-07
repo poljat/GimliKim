@@ -1,34 +1,42 @@
 import React from 'react';
-import {Button, ScrollView, StyleSheet} from 'react-native';
+import {Text, Button, ScrollView, StyleSheet} from 'react-native';
+import { SimpleAnimation } from 'react-native-simple-animations';
+
 
 
 export default class ChatsScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Chats',
-  };
-  state={
-    moi:  this.props.screenProps,
-}
-  render() {
-    console.log(this.state)
-    return (
+    static navigationOptions = {
+        title: 'Chats',
+    };
+    state={
+        moi:  this.props.screenProps,
+    }
+    render() {
+        console.log(this.state)
+        return (
 
-      <ScrollView style={styles.container}>
-        {/* Go ahead and delete ExpoLinksView and replace it with your
-           * content, we just wanted to provide you with some helpful links */}
-        <Button title={'logout'} onPress={()=>this.props.navigation.navigate('Auth')}/>
-        <Button title={'logout'} onPress={()=>this.props.navigation.navigate('Auth')}/>
-        <Button title={'logout'} onPress={()=>this.props.navigation.navigate('Auth')}/>
-        <Button title={'logout'} onPress={()=>this.props.navigation.navigate('Auth')}/>
-      </ScrollView>
-    );
-  }
+            <ScrollView style={styles.container}>
+                <SimpleAnimation
+                    delay={500}
+                    fade
+                    duration={1000}
+                    friction={20}
+                    tension={5}
+                    distance={500}
+                    movementType="spring"
+                    direction="left"
+                >
+                    <Text>Hello, world!</Text>
+                </SimpleAnimation>
+            </ScrollView>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
-  },
+    container: {
+        flex: 1,
+        paddingTop: 15,
+        backgroundColor: '#fff',
+    },
 });
