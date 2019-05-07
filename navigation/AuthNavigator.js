@@ -8,6 +8,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 const loginRegistrationNavigator = createStackNavigator({
     Login: {screen:SignInScreen},
     Register: {screen:RegisterScreen},
+
 },{
     initialRouteName: "Login",
 });

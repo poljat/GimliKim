@@ -4,6 +4,7 @@ import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import MainTabNavigator from './MainTabNavigator';
 import AuthNavigator from'./AuthNavigator';
 import QueryScreen from '../screens/QueryScreen'
+import SingleScreen from "../screens/SingleScreen";
 
 
 export default createAppContainer(createSwitchNavigator({
@@ -14,7 +15,8 @@ export default createAppContainer(createSwitchNavigator({
   AuthLoading: AuthLoadingScreen,
       App: MainTabNavigator,
     Auth: AuthNavigator ,
-    Query: QueryScreen
+    Query: QueryScreen,
+    Single: SingleScreen,
 },
 {
   initialRouteName: 'AuthLoading',

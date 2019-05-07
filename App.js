@@ -2,7 +2,9 @@ import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
-import { AsyncStorage } from "react-native"
+import { AsyncStorage } from "react-native";
+import ApiKeys from "./constants/ApiKeys.js"
+import * as firebase from "firebase";
 
 import {getUser,getAllQueries} from './utils/MediaAPI';
 
@@ -15,6 +17,11 @@ import {getUser,getAllQueries} from './utils/MediaAPI';
       items: [],
       user: null,
   };
+
+  constructor(props) {
+      super(props);
+      firebase.initializeApp(ApiKeys.FirebaseConfig);
+  }
 
      setUser = (user) => {
          this.setState({

@@ -25,7 +25,6 @@ export default class SignInScreen extends Component {
             username: '',
             password: '',
         },
-
         toggleForm: true,
         validUser: true,
 
@@ -33,7 +32,6 @@ export default class SignInScreen extends Component {
 
     onLogin(evt) {
         const {username, password} = this.state.user;
-
         evt.preventDefault();
         this.doLogin();
     }
@@ -51,9 +49,6 @@ export default class SignInScreen extends Component {
         });
     };
     handlePasswordChange = (text) => {
-
-        console.log(text)
-
         this.setState(previousState => ({
             user: {
                 ...previousState.user, password: text,
@@ -74,19 +69,13 @@ export default class SignInScreen extends Component {
         if (this.state.user === null && AsyncStorage.getItem('token') !== null) {
             getUser(AsyncStorage.getItem('token')).then(response => {
                 this.setUser(response);
-                console.log(this.state.user)
-                console.log('moiieliii')
             });
         }
-
-
     }
 
 
     render() {
-
         return (
-
             <LinearGradient
                 colors={["#56b69b", "#9eb8b3", "#9c7587"]}
                 style={{flex: 1}}
@@ -95,7 +84,6 @@ export default class SignInScreen extends Component {
             >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                     <View style={styles.container}>
-
                         <Text style={styles.titleText}>GimliKim</Text>
                         <TextInput
                             name={'username'}
@@ -119,7 +107,6 @@ export default class SignInScreen extends Component {
                             placeholderTextColor='white'
                             style={styles.input}
                         />
-
 
                         <TouchableOpacity
                             style={styles.button}
@@ -147,9 +134,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         color: "white",
-        /*
-                backgroundColor: '#254954',
-        */
+
     },
     button: {
         alignItems: 'center',
@@ -169,11 +154,10 @@ const styles = StyleSheet.create({
     },
     input: {
         width: 300,
+        color: "white",
         fontSize: 20,
         height: 44,
         padding: 10,
-        /*        borderWidth: 1,
-                borderColor: 'white',*/
         borderRadius: 5,
         marginVertical: 10,
         backgroundColor: 'rgba(192,192,192,0.3)',

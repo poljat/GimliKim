@@ -6,6 +6,8 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import ChatsScreen from '../screens/ChatsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import SingleScreen from '../screens/SingleScreen';
+
 
 console.log(this.props)
 const HomeStack = createStackNavigator({
@@ -26,18 +28,32 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const ChatStack = createStackNavigator({
-  Chats: {screen:ChatsScreen},
+/*const SingleStack = createStackNavigator({
+  Singles: {screen:SingleScreen},
 });
 
-ChatStack.navigationOptions = {
-  tabBarLabel: 'Chats',
+SingleStack.navigationOptions = {
+  tabBarLabel: 'Singles',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
       name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
     />
   ),
+};*/
+
+const ChatStack = createStackNavigator({
+    Chats: {screen:ChatsScreen},
+});
+
+ChatStack.navigationOptions = {
+    tabBarLabel: 'Chats',
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+            focused={focused}
+            name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+        />
+    ),
 };
 
 const ProfileStack = createStackNavigator({

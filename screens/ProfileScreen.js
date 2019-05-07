@@ -18,7 +18,7 @@ export default class ProfileScreen extends React.Component {
         const profilePicture = arr.filename;
 
         console.log("PROPS");
-        console.log(this.props.screenProps.queries);
+        console.log(this.props.navigation.navigate);
 
 
         return (
