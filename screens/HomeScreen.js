@@ -1,0 +1,138 @@
+import React from 'react';
+import {
+  Platform,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View, Button, FlatList, Text, Image
+} from 'react-native';
+import QueryBox from '../components/QueryBox'
+import {SimpleAnimation} from "react-native-simple-animations";
+
+
+export default class HomeScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Home',
+  };
+
+  navigate = () => {
+    console.log('moikkuu')
+    this.props.navigation.navigate('Query')
+  }
+
+  render() {
+    console.log('home')
+
+    return (
+        <SimpleAnimation
+            delay={500}
+            fade
+            duration={1000}
+            friction={20}
+            tension={5}
+            distance={500}
+            movementType="spring"
+            direction="left"
+        >
+          <Button title={"Upload"} onPress={()=>{this.props.navigation.navigate("Submit")}}>
+          </Button>
+
+
+          <ScrollView>
+            <QueryBox nav={this.navigate} items={this.props.screenProps.queries}/>
+          </ScrollView>
+        </SimpleAnimation>
+    );
+
+  }
+}
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  developmentModeText: {
+    marginBottom: 20,
+    color: 'rgba(0,0,0,0.4)',
+    fontSize: 14,
+    lineHeight: 19,
+    textAlign: 'center',
+  },
+  contentContainer: {
+    paddingTop: 30,
+  },
+  welcomeContainer: {
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  welcomeImage: {
+    width: 100,
+    height: 80,
+    resizeMode: 'contain',
+    marginTop: 3,
+    marginLeft: -10,
+  },
+  getStartedContainer: {
+    alignItems: 'center',
+    marginHorizontal: 50,
+  },
+  homeScreenFilename: {
+    marginVertical: 7,
+  },
+  codeHighlightText: {
+    color: 'rgba(96,100,109, 0.8)',
+  },
+  codeHighlightContainer: {
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    borderRadius: 3,
+    paddingHorizontal: 4,
+  },
+  getStartedText: {
+    fontSize: 17,
+    color: 'rgba(96,100,109, 1)',
+    lineHeight: 24,
+    textAlign: 'center',
+  },
+  tabBarInfoContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'black',
+        shadowOffset: {height: -3},
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+      },
+      android: {
+        elevation: 20,
+      },
+    }),
+    alignItems: 'center',
+    backgroundColor: '#fbfbfb',
+    paddingVertical: 20,
+  },
+  tabBarInfoText: {
+    fontSize: 17,
+    color: 'rgba(96,100,109, 1)',
+    textAlign: 'center',
+  },
+  navigationFilename: {
+    marginTop: 5,
+  },
+  helpContainer: {
+    marginTop: 15,
+    alignItems: 'center',
+  },
+  helpLink: {
+    paddingVertical: 15,
+  },
+  helpLinkText: {
+    fontSize: 14,
+    color: '#2e78b7',
+  },
+});
