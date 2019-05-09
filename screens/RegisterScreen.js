@@ -1,18 +1,29 @@
 import React, {Component} from 'react';
-import {Alert, Text, TouchableOpacity, TextInput, View, StyleSheet, AsyncStorage, Button} from 'react-native';
+import {
+    Text,
+    TouchableOpacity,
+    TextInput,
+    View,
+    StyleSheet,
+    AsyncStorage,
+    Button,
+    Keyboard,
+    TouchableWithoutFeedback
+} from 'react-native';
 import {login, register, getUser, checkUser} from '../utils/MediaAPI';
 import {LinearGradient} from "expo";
 
-
 export default class SignInScreen extends Component {
-
+    static navigationOptions = {
+        header:null,
+    };
     state = {
         user: {
             username: '',
             password: '',
-            repeatPassword: '',
-            email: '',
-            full_name: '',
+            repeatPassword:'',
+            email:'',
+            full_name:'',
         },
 
         toggleForm: true,
@@ -22,27 +33,24 @@ export default class SignInScreen extends Component {
 
 
     onRegister(evt) {
-        const {username, password} = this.state.user;
 
-        Alert.alert('Credentials', `email: ${username} + password: ${password}`);
         evt.preventDefault();
         this.handleRegisterSubmit();
     }
 
     handleRegisterSubmit = () => {
-        console.log(this.state.user)
         register(this.state.user).then(user => {
             console.log(user);
             this.doLogin();
         });
     };
 
-    doLogin = () => {
+    doLogin =  () => {
         login(this.state.user.username, this.state.user.password).then(async (response) => {
             console.log(response);
-            if (!response.token) {
+            if(!response.token) {
                 alert(response.message)
-            } else {
+            }else{
                 await AsyncStorage.setItem('token', response.token);
                 this.props.navigation.navigate('App');
             }
@@ -53,47 +61,42 @@ export default class SignInScreen extends Component {
         console.log(text)
 
         this.setState(previousState => ({
-            user: {
+            user:{
                 ...previousState.user, password: text,
-            },
-        }));
+            },}));
     };
     handleUsernameChange = (text) => {
 
         console.log(text)
         this.setState(previousState => ({
-            user: {
+            user:{
                 ...previousState.user, username: text,
-            },
-        }));
+            },}));
     };
     handleRepeatPasswordChange = (text) => {
 
         console.log(text)
 
         this.setState(previousState => ({
-            user: {
+            user:{
                 ...previousState.user, repeatPassword: text,
-            },
-        }));
+            },}));
     };
     handleEmailChange = (text) => {
 
         console.log(text)
         this.setState(previousState => ({
-            user: {
+            user:{
                 ...previousState.user, email: text,
-            },
-        }));
+            },}));
     };
     handleFullNameChange = (text) => {
 
         console.log(text)
         this.setState(previousState => ({
-            user: {
+            user:{
                 ...previousState.user, full_name: text,
-            },
-        }));
+            },}));
     };
 
     render() {
@@ -104,6 +107,7 @@ export default class SignInScreen extends Component {
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 1}}
             >
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                 <View style={styles.container}>
                     <Text style={styles.titleText}>Welcome To</Text>
                     <Text style={styles.titleText}>GimliKim!</Text>
@@ -170,6 +174,7 @@ export default class SignInScreen extends Component {
                     </TouchableOpacity>
 
                 </View>
+                </TouchableWithoutFeedback>
             </LinearGradient>
         );
     }

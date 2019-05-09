@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import {
     TouchableWithoutFeedback,
@@ -12,69 +12,72 @@ import {
     AsyncStorage,
     Button, ScrollView,
 } from 'react-native';
-import {getUser, login} from '../utils/MediaAPI';
 import {LinearGradient} from 'expo';
+import {getUser, login} from '../utils/MediaAPI';
+
 
 export default class SignInScreen extends Component {
     static navigationOptions = {
-        header: null,
+ header:null,
     };
-
     state = {
         user: {
             username: '',
             password: '',
         },
-        toggleForm: true,
-        validUser: true,
-
-    };
+            toggleForm: true,
+            validUser: true,
+        };
 
     onLogin(evt) {
-        const {username, password} = this.state.user;
+        const { username, password } = this.state.user;
+
+
         evt.preventDefault();
         this.doLogin();
     }
-
-    doLogin = () => {
+    doLogin =  () => {
         login(this.state.user.username, this.state.user.password).then(async (response) => {
             console.log(response);
-            if (!response.token) {
+            if(!response.token) {
                 alert(response.message)
-            } else {
+            }else{
                 await AsyncStorage.setItem('token', response.token);
                 this.props.screenProps.setUser(response.user)
-                this.props.navigation.navigate('App', {data: this.state});
+                this.props.navigation.navigate('App',{data:this.state});
             }
         });
     };
     handlePasswordChange = (text) => {
         this.setState(previousState => ({
-            user: {
+            user:{
                 ...previousState.user, password: text,
-            },
-        }));
+            },}));
     };
     handleUsernameChange = (text) => {
 
-        console.log(text);
+        console.log(text)
         this.setState(previousState => ({
-            user: {
+            user:{
                 ...previousState.user, username: text,
-            },
-        }));
+            },}));
     };
 
     componentDidMount() {
         if (this.state.user === null && AsyncStorage.getItem('token') !== null) {
             getUser(AsyncStorage.getItem('token')).then(response => {
                 this.setUser(response);
+                console.log(this.state.user)
+                console.log('moiieliii')
             });
         }
+
+
     }
 
 
     render() {
+
         return (
             <LinearGradient
                 colors={["#56b69b", "#9eb8b3", "#9c7587"]}
@@ -84,6 +87,7 @@ export default class SignInScreen extends Component {
             >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                     <View style={styles.container}>
+
                         <Text style={styles.titleText}>GimliKim</Text>
                         <TextInput
                             name={'username'}
@@ -108,6 +112,7 @@ export default class SignInScreen extends Component {
                             style={styles.input}
                         />
 
+
                         <TouchableOpacity
                             style={styles.button}
                             onPress={this.onLogin.bind(this)}
@@ -118,10 +123,13 @@ export default class SignInScreen extends Component {
                     </View>
                 </TouchableWithoutFeedback>
             </LinearGradient>
-
         );
     }
 }
+
+SignInScreen.propTypes = {
+    setUser: PropTypes.func,
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -134,7 +142,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         color: "white",
-
+        /*
+                backgroundColor: '#254954',
+        */
     },
     button: {
         alignItems: 'center',
@@ -153,13 +163,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     input: {
-        width: 300,
         color: "white",
+        width: 300,
         fontSize: 20,
         height: 44,
         padding: 10,
+        /*        borderWidth: 1,
+                borderColor: 'white',*/
         borderRadius: 5,
         marginVertical: 10,
         backgroundColor: 'rgba(192,192,192,0.3)',
     },
 });
+

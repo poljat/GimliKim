@@ -17,7 +17,6 @@ export default class ChatsScreen extends React.Component {
 
             <ScrollView style={styles.container}>
                 <SimpleAnimation
-                    delay={500}
                     fade
                     duration={1000}
                     friction={20}
@@ -40,3 +39,4 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
 });
+

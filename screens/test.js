@@ -1,43 +1,45 @@
-<Button title={'logout'} onPress={()=>this.props.navigation.navigate('Auth')}/>
+import {ScrollView, View} from "react-native";
+import {Header} from "react-native-elements";
+import {Card, CardAction, CardContent, CardImage} from "react-native-cards";
+
+return  (
+    <View>
+        <Header
+            leftComponent={{
+                icon: 'gamepad', color: '#fff', onPress: () => {
+                    this.props.navigation.navigate('App')
+                }
+            }}
+            centerComponent={{text: 'Home', style: {color: '#fff'}, fontSize: 34}}
+        />
+
+        <ScrollView>
+
+            <Card>
+                <CardImage
+                    source={{uri: mediaUrl + filename}}
+                    title=" "
+
+                />
+
+                <CardContent text={title} style={{fontWeight: "bold"}}/>
+                <CardContent text={description}/>
 
 
-import {Button, Text, TextInput, TouchableOpacity, View} from "react-native";
 
-<View style={styles.container}>
+                <CardAction separator={true} inColumn={true}>
+                    {this.state.commentArray.map((items, i) => {
+                        return <CardContent CardAction separator={true} inColumn={true} key={i} text={items.comment}/>
+                    })}
+                </CardAction >
 
-
-
-    <Text style={styles.titleText}>GimliKim</Text>
-    <TextInput
-        name={'username'}
-        value={this.state.user.username}
-        keyboardType='email-address'
-        onChangeText={(text) => {
-            this.handleUsernameChange(text)
-        }}
-        placeholder={'username'}
-        placeholderTextColor='white'
-        style={styles.input}
-    />
-    <TextInput
-        name={'password'}
-        value={this.state.user.password}
-        onChangeText={(text) => {
-            this.handlePasswordChange(text)
-        }}
-        placeholder={'password'}
-        secureTextEntry={true}
-        placeholderTextColor='white'
-        style={styles.input}
-    />
+            </Card>
 
 
-    <TouchableOpacity
-        style={styles.button}
-        onPress={this.onLogin.bind(this)}
-    >
-        <Text style={styles.buttonText}>Log In</Text>
-    </TouchableOpacity>
-    <Button title={'Register'} onPress={() => this.props.navigation.navigate('Register')}/>
 
-</View>
+        </ScrollView>
+    </View>
+
+)
+}
+}
