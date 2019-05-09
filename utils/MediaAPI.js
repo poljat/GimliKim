@@ -176,6 +176,24 @@ const getUserChats = (tag) => {
     });
 };
 
+const newComment = (com, id, token) => {
+    const settings = {
+        method: 'POST',
+        body: JSON.stringify({file_id: id, comment: com}),
+        headers: {
+            'x-access-token': token,
+            'Content-Type': 'application/json',
+        },
+    };
+
+    return fetch(url + 'comments', settings).then(response => {
+        return response.json();
+
+    }).catch(function (error) {
+        console.log(error)
+    })
+};
+
 const uploadFile = (file, title, desc, token) => {
     const options = {
         method: 'POST',
@@ -209,4 +227,5 @@ export{getDescription}
 export {deleteImg}
 export{getUserChats}
 export{uploadFile}
+export{newComment}
 

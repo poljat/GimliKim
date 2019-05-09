@@ -16,6 +16,7 @@ export default class ChatsScreen extends React.Component {
 
   chatArr;
   joinedArr;
+  found;
 
   state = {
     userFiles: '',
@@ -27,8 +28,14 @@ export default class ChatsScreen extends React.Component {
       this.setState({
           joinedChats: res
       });
-      this.joinedArr =
-          <QueryBox nav={this.navigate} items={this.state.joinedChats}/>;
+      if (this.state.joinedChats.length <= 0) {
+        this.joinedArr =
+            <Text style={styles.empty}>Nothing here</Text>;
+      } else {
+        this.joinedArr =
+            <QueryBox nav={this.navigate} items={this.state.joinedChats}/>;
+        this.found=1;
+      }
     });
 
     getUserChats('GimliKim').then((files) => {
@@ -42,15 +49,21 @@ export default class ChatsScreen extends React.Component {
       this.setState({
           userFiles: userChats
       });
-      this.chatArr =
+      if (this.state.userFiles.length <= 0) {
+        this.chatArr =
+            <Text style={styles.empty}>It sure feels empty here...</Text>;
+      } else {
+        this.chatArr =
           <QueryBox nav={this.navigate} items={this.state.userFiles}/>;
+        this.found=1;
+      }
+
     });
 
   };
 
   render() {
-    if (this.state.userFiles.length <= 0 || this.state.joinedChats.length <=
-        0) {
+    if ((this.state.userFiles.length <= 0 || this.state.joinedChats.length <= 0) || this.found === 1) {
       this.getChats();
     }
     return (
@@ -86,8 +99,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  text: {
+  empty: {
     fontSize: 20,
-
   },
 });
