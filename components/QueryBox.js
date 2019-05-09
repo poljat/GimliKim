@@ -1,17 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {
-    Image,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableNativeFeedback,
-    TouchableOpacity,
-    View, Button
-} from 'react-native';
-import {getDescription} from "../utils/MediaAPI";
-import {Card, CardTitle, CardContent, CardAction, CardButton, CardImage} from 'react-native-cards';
+import {StyleSheet, Text, TouchableNativeFeedback, View} from 'react-native';
+import {Card, CardAction, CardButton, CardContent, CardImage} from 'react-native-cards';
 
 const mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
@@ -40,7 +30,12 @@ const styles = StyleSheet.create({
     cardButton: {
         flex: 1,
         justifyContent: "space-between"
-    }
+    },
+    titleStyle: {
+        fontSize: 26,
+        padding: 5,
+
+    },
 });
 
 
@@ -59,13 +54,14 @@ class QueryBox extends Component {
                 <View>
                     <Card>
                         <CardImage
-                            source={{uri: mediaUrl + items.thumbnails.w160}}
-                            title={items.title}
+                            source={{uri: mediaUrl + items.thumbnails.w320}}
                             description={items.description}
                         >
                             <CardContent text={items.title}/>
                             <CardContent text={items.description}/>
                         </CardImage>
+
+                        <Text style={styles.titleStyle}>{items.title}</Text>
 
 
                         <CardAction
@@ -74,40 +70,7 @@ class QueryBox extends Component {
                             inColumn={false}>
                             <CardButton
                                 onPress={() => console.log("UPVOTE")}
-                                title="Sharts"
-                                color="#FEB557"
-                            />
-
-                            <CardButton
-                                onPress={() => console.log("UPVOTE")}
-                                title="Upvote"
-                                color="#FEB557"
-                            />
-                        </CardAction>
-
-                        <CardImage
-                            source={{uri: mediaUrl + items.thumbnails.w160}}
-                            title={items.title}
-                            description={items.description}
-                        >
-                            <CardContent text={items.title}/>
-                            <CardContent text={items.description}/>
-                        </CardImage>
-
-
-                        <CardAction
-                            style={styles.cardButton}
-                            separator={true}
-                            inColumn={false}>
-                            <CardButton
-                                onPress={() => console.log("UPVOTE")}
-                                title="Sharts"
-                                color="#FEB557"
-                            />
-
-                            <CardButton
-                                onPress={() => console.log("UPVOTE")}
-                                title="Upvote"
+                                title="Join Group"
                                 color="#FEB557"
                             />
                         </CardAction>

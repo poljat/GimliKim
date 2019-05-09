@@ -1,6 +1,8 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { Ionicons } from '@expo/vector-icons';
+
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
@@ -9,7 +11,6 @@ import ProfileScreen from '../screens/ProfileScreen';
 import SingleScreen from '../screens/SingleScreen';
 
 
-console.log(this.props)
 const HomeStack = createStackNavigator({
   Home: {screen:HomeScreen},
 });
@@ -21,26 +22,12 @@ HomeStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-information-circle${focused ? '' : 'md-home'}`
+          : 'md-home'
       }
     />
   ),
 };
-
-/*const SingleStack = createStackNavigator({
-  Singles: {screen:SingleScreen},
-});
-
-SingleStack.navigationOptions = {
-  tabBarLabel: 'Singles',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
-  ),
-};*/
 
 const ChatStack = createStackNavigator({
     Chats: {screen:ChatsScreen},
@@ -51,7 +38,7 @@ ChatStack.navigationOptions = {
     tabBarIcon: ({ focused }) => (
         <TabBarIcon
             focused={focused}
-            name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+            name={Platform.OS === 'ios' ? 'ios-link' : 'md-chatboxes'}
         />
     ),
 };
@@ -65,7 +52,7 @@ ProfileStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+      name={Platform.OS === 'ios' ? 'ios-options' : 'md-person'}
     />
   ),
 };

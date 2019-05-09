@@ -88,7 +88,7 @@ export default class SignInScreen extends Component {
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                     <View style={styles.container}>
 
-                        <Text style={styles.titleText}>GimliKim</Text>
+                        <Text style={styles.titleText}>pond'o</Text>
                         <TextInput
                             name={'username'}
                             value={this.state.user.username}

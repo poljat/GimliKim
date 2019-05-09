@@ -1,21 +1,38 @@
 import React from 'react';
 import {Text, Button, ScrollView, StyleSheet} from 'react-native';
-import { SimpleAnimation } from 'react-native-simple-animations';
-
+import {SimpleAnimation} from 'react-native-simple-animations';
+import {Header} from "react-native-elements";
 
 
 export default class ChatsScreen extends React.Component {
     static navigationOptions = {
-        title: 'Chats',
+        header: null
     };
-    state={
-        moi:  this.props.screenProps,
+    state = {
+        moi: this.props.screenProps,
     }
+
     render() {
         console.log(this.state)
         return (
 
             <ScrollView style={styles.container}>
+
+                <Header
+                    containerStyle={{
+                        backgroundColor: '#56b69b',
+                    }}
+                    leftComponent={{
+                        text: 'Chats', style: {color: 'white', fontSize: 20}
+                    }}
+
+                    rightComponent={{
+                        icon: 'search', color: '#fff', onPress: () => {
+                            this.openSearch()
+                        }
+                    }}
+                />
+
                 <SimpleAnimation
                     fade
                     duration={1000}
@@ -35,8 +52,10 @@ export default class ChatsScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 15,
-        backgroundColor: '#fff',
+/*        paddingTop: 15,
+        backgroundColor: '#fff',*/
     },
+
+
 });
 

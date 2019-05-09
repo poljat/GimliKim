@@ -1,13 +1,10 @@
 import React from 'react';
-import {
-    ScrollView, Image, StyleSheet, View, FlatList, Text, AsyncStorage, TouchableOpacity
-} from 'react-native';
-import {getComments, getSingleQuery, newComment, getUserId} from '../utils/MediaAPI';
-import {Header, Avatar, Button, Divider} from "react-native-elements";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {AsyncStorage, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {getComments, getSingleQuery, getUserId, newComment} from '../utils/MediaAPI';
+import {Divider, Header} from "react-native-elements";
 
 
-import {Card, CardTitle, CardContent, CardAction, CardButton, CardImage} from 'react-native-material-cards';
+import {Card, CardAction, CardContent, CardImage} from 'react-native-material-cards';
 
 const mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
@@ -18,6 +15,7 @@ export default class QueryScreen extends React.Component {
     state = {
         query: "",
         commentArray: [],
+        postsUsername: "",
     };
 
     postNewComment = async () => {
@@ -31,11 +29,18 @@ export default class QueryScreen extends React.Component {
         })
     };
 
-/*    getPostsUser = async () => {
+    getPostsUser = async () => {
+        console.log(this.state.query.user_id);
         let token = await AsyncStorage.getItem("token");
-        getUserId()
+        getUserId(this.state.query.user_id, token).then(res => {
+            console.log("SUCCES");
 
-    };*/
+            this.setState({postsUsername: res,})
+            console.log(this.state.postsUsername);
+
+        })
+
+    };
 
     componentDidMount() {
         console.log("component mount");
@@ -45,38 +50,31 @@ export default class QueryScreen extends React.Component {
             getSingleQuery(id).then(res => {
                 this.setState({query: res,});
                 this.getNewComments();
+                this.getPostsUser();
             })
         }
     }
 
     render() {
         const {description, filename, title, user_id} = this.state.query;
-        /*
-                const {comment, comment_id, user_id} = this.state.commentArray;
-        */
-        const comcom = this.state.commentArray[0];
-
-        /*
-                const romcom = comcom.time_added;
-        */
-        const name = ((this.state.commentArray[0]) || {}).comment;
-
-        console.log("QUERY2")
-        console.log(this.state.query.file_id);
-
+        const postersusername = this.state.postsUsername.username;
 
         return (
-            <View styles={styles.container}>
-                <Header
-                    leftComponent={{
-                        icon: 'gamepad', color: '#fff', onPress: () => {
-                            this.props.navigation.navigate('App')
-                        }
-                    }}
-                    centerComponent={{text: 'Home', style: {color: '#fff'}, fontSize: 34}}
-                />
 
+            <View styles={styles.container}>
                 <ScrollView>
+
+                    <Header
+                        containerStyle={{
+                            backgroundColor: '#92bab2',
+                        }}
+                        leftComponent={{
+                            icon: 'arrow-back', color: '#fff', onPress: () => {
+                                this.props.navigation.navigate('App')
+                            }
+                        }}
+                        centerComponent={{text: 'Event', style: {color: 'white', fontSize: 20}}}
+                    />
 
                     <Card>
                         <CardImage
@@ -85,7 +83,7 @@ export default class QueryScreen extends React.Component {
                             title=""
                         />
 
-{/*                        <View style={{flex: 1, flexDirection: "row", flexWrap: 'wrap', justifyContent: 'space-between'}}>
+                        {/*                        <View style={{flex: 1, flexDirection: "row", flexWrap: 'wrap', justifyContent: 'space-between'}}>
 
                             <CardContent styles={styles.cardTitleStyle} text={title}/>
                             <Button
@@ -103,7 +101,7 @@ export default class QueryScreen extends React.Component {
                         <Text style={styles.titleStyle}>{title}</Text>
 
 
-                        <Text style={styles.smallTextStyle}>By {user_id}</Text>
+                        <Text style={styles.smallTextStyle}>By {postersusername}</Text>
 
                         <Text style={styles.descriptionStyle}>{description}</Text>
 

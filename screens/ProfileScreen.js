@@ -1,15 +1,15 @@
 import React from 'react';
-import {SectionList, Image, StyleSheet, Text, View, Button, ScrollView} from 'react-native';
-import {Constants} from 'expo';
-import {Card, CardTitle, CardContent, CardAction, CardButton, CardImage} from 'react-native-cards';
+import {ScrollView, StyleSheet} from 'react-native';
+import {Card, CardAction, CardButton, CardContent, CardImage} from 'react-native-cards';
 import {SimpleAnimation} from "react-native-simple-animations";
+import {Header} from "react-native-elements";
 
 const mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
 
 export default class ProfileScreen extends React.Component {
   static navigationOptions = {
-    title: 'Profile',
+    header: null,
   };
 
   render() {
@@ -31,7 +31,15 @@ export default class ProfileScreen extends React.Component {
             distance={500}
             movementType="spring"
             direction="left">
+
           <ScrollView>
+            <Header
+                containerStyle={{
+                  backgroundColor: '#9c7587',
+                }}
+                leftComponent={{text: 'Profile', style: {color: 'white', fontSize: 20}}}
+            />
+
             <Card>
               <CardImage
                   source={{uri: mediaUrl + profilePicture}}
