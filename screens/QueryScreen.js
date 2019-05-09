@@ -1,8 +1,8 @@
 import React from 'react';
 import {
-    ScrollView, Image, StyleSheet, View, FlatList, Text, AsyncStorage
+    ScrollView, Image, StyleSheet, View, FlatList, Text, AsyncStorage, TouchableOpacity
 } from 'react-native';
-import {getComments, getSingleQuery, newComment} from '../utils/MediaAPI';
+import {getComments, getSingleQuery, newComment, getUserId} from '../utils/MediaAPI';
 import {Header, Avatar, Button, Divider} from "react-native-elements";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -30,6 +30,12 @@ export default class QueryScreen extends React.Component {
             this.setState({commentArray: res,})
         })
     };
+
+/*    getPostsUser = async () => {
+        let token = await AsyncStorage.getItem("token");
+        getUserId()
+
+    };*/
 
     componentDidMount() {
         console.log("component mount");
@@ -79,10 +85,9 @@ export default class QueryScreen extends React.Component {
                             title=""
                         />
 
-                        <View style={{flex: 1, flexDirection: "row", justifyContent: 'space-between', paddingTop: 20}}>
+{/*                        <View style={{flex: 1, flexDirection: "row", flexWrap: 'wrap', justifyContent: 'space-between'}}>
 
                             <CardContent styles={styles.cardTitleStyle} text={title}/>
-
                             <Button
                                 type={"outline"}
                                 buttonStyle={{width: 80}}
@@ -91,14 +96,25 @@ export default class QueryScreen extends React.Component {
                                     size: 15,
                                     color: "blue"
                                 }}
-
-
                             />
-                        </View>
+
+                        </View>*/}
+
+                        <Text style={styles.titleStyle}>{title}</Text>
+
 
                         <Text style={styles.smallTextStyle}>By {user_id}</Text>
 
                         <Text style={styles.descriptionStyle}>{description}</Text>
+
+                        <Divider style={{backgroundColor: '#DDC9C5'}}/>
+
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={console.log("KOK")}
+                        >
+                            <Text style={styles.buttonText}>Join Group</Text>
+                        </TouchableOpacity>
 
                         <CardAction separator={true} inColumn={true}>
                             {this.state.commentArray.map((items, i) => {
@@ -173,7 +189,23 @@ const styles = StyleSheet.create({
     cardTitleStyle: {
         fontSize: 40,
         padding: 0,
-    }
+    },
+    button: {
+        alignItems: 'center',
+        alignSelf: 'stretch',
+        height: 44,
+        borderWidth: 1,
+        borderColor: '#DDC9C5',
+        borderRadius: 5,
+        marginBottom: 10,
+        padding: 8,
+    },
+    buttonText: {
+        color: "#DDC9C5",
+        fontSize: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 
 });
 

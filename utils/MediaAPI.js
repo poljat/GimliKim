@@ -119,9 +119,8 @@ const getUserId = (userId, token) => {
         headers: {
             'x-access-token': token,
         }
-    }
+    };
     return fetch(url + 'users/' + userId, settings).then(response => {
-
         return response.json();
     });
 }
