@@ -1,13 +1,12 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   Text,
   View,
   Button,
   Image,
-  TouchableOpacity,
-  TextInput, StyleSheet, AsyncStorage,
+  TextInput, StyleSheet, AsyncStorage, TouchableOpacity,
 } from 'react-native';
-import {ImagePicker, Camera, Permissions} from 'expo';
+import {ImagePicker, Icon} from 'expo';
 
 export default class UploadScreen extends React.Component {
   state = {
@@ -85,7 +84,7 @@ export default class UploadScreen extends React.Component {
       console.log(fileId);
       const settings = {
         method: 'POST',
-        body: JSON.stringify({ file_id: fileId, tag: "GimliKim"}),
+        body: JSON.stringify({file_id: fileId, tag: 'GimliKim'}),
         headers: {
           'x-access-token': token,
           'Content-Type': 'application/json',
@@ -97,23 +96,36 @@ export default class UploadScreen extends React.Component {
         return res.json();
       }).then(json => {
         console.log(json);
+        this.props.navigation.navigate('Auth');
       });
 
     });
   };
 
   render() {
-    let {filedata} = this.state.file;
     return (
         <View style={styles.container}>
+          <TouchableOpacity onPress={() => {
+            this.props.navigation.navigate('Auth');
+          }}>
+            <Icon.Ionicons name={'md-arrow-back'} size={32}
+                           color={'black'}/>
+            <Text style={{color: 'black'}}>Back to home</Text>
+          </TouchableOpacity>
 
-          {filedata &&
-          <Image source={{uri: filedata}} style={{width: 200, height: 200}}/>}
-          <Button
-              title="Pick an image from camera roll"
-              onPress={this._pickImage}
-          />
-
+          <View style={styles.buttons}>
+            <Button
+                title="Pick a picture from you phone"
+                style={styles.button}
+                onPress={this._pickImage}
+            />
+            <Button title={'Or take a new one'}
+                    style={styles.button}
+                    onPress={() => {
+                      this.props.navigation.navigate('Camera');
+                    }}>
+            </Button>
+          </View>
           <TextInput
               name={'Title'}
               value={this.state.file.title}
@@ -139,7 +151,8 @@ export default class UploadScreen extends React.Component {
               placeholderTextColor='white'
               style={styles.descinput}
           />
-          <Button title={'Upload'} onPress={() => this.handleUpload()}/>
+          <Button title={'Upload'} style={styles.button}
+                  onPress={() => this.handleUpload()}/>
         </View>
     );
   }
@@ -156,9 +169,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     color: 'white',
-    /*
-            backgroundColor: '#254954',
-    */
   },
   button: {
     alignItems: 'center',
@@ -170,19 +180,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 8,
   },
-  buttonText: {
-    color: 'white',
-    fontSize: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   input: {
     width: 300,
     fontSize: 20,
     height: 44,
     padding: 10,
-    /*        borderWidth: 1,
-            borderColor: 'white',*/
     borderRadius: 5,
     marginVertical: 10,
     backgroundColor: 'rgba(192,192,192,0.3)',
@@ -194,5 +196,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 10,
     backgroundColor: 'rgba(192,192,192,0.3)',
+  },
+  buttons: {
+    flex: 0.2,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
 });

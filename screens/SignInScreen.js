@@ -13,7 +13,7 @@ import {
     Button, ScrollView,
 } from 'react-native';
 import {getUser, login} from '../utils/MediaAPI';
-import {LinearGradient} from 'expo';
+import {Icon, LinearGradient} from 'expo';
 
 export default class SignInScreen extends Component {
     static navigationOptions = {
@@ -52,7 +52,7 @@ export default class SignInScreen extends Component {
     };
     handlePasswordChange = (text) => {
 
-        console.log(text)
+        console.log(text);
 
         this.setState(previousState => ({
             user: {

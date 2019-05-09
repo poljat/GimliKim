@@ -99,7 +99,6 @@ const getUserId = (userId,token) => {
     });
 }
 const checkUser = (name) => {
-    console.log(name)
     return fetch(url + 'users/username/' + name  ).then(response => {
 
         return response.json();
@@ -117,14 +116,11 @@ const getFilters = (text) => {
     }
 };
 const getDescription = (text) => {
-    console.log(text)
     const pattern = '\\[d\\](.*?)\\[\\/d\\]';
     const re = new RegExp(pattern);
     try {
-        console.log((re.exec(text)[1]))
         return re.exec(text)[1];
     } catch (e) {
-        console.log(e);
         return text
     }
 };

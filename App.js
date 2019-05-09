@@ -20,7 +20,6 @@ class App extends React.Component {
       user: user,
 
     });
-    console.log(this.state);
 
     /* const profId = this.state.user.info.user_id;
      //hea profiilikuva ja siitä se user-objektiin
@@ -51,7 +50,6 @@ class App extends React.Component {
     if (this.state.user === null && AsyncStorage.getItem('token') !== null) {
       getUser(AsyncStorage.getItem('token')).then(response => {
         this.setUser(response);
-        console.log(this.state.user);
       });
     }
 

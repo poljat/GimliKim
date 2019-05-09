@@ -48,7 +48,6 @@ class QueryBox extends Component {
 
 
     render() {
-        console.log(this.props.items);
         return this.props.items.map((items, i) => (
             <Card key={i}>
                 <CardImage

@@ -1,11 +1,9 @@
 import React from 'react';
 import {
-  View,
   StyleSheet,
   AsyncStorage,
   Text,
-  Image,
-  Platform, ScrollView,
+  ScrollView,
 } from 'react-native';
 import {getUserChats} from '../utils/MediaAPI';
 import QueryBox from '../components/QueryBox';
@@ -26,10 +24,8 @@ export default class ChatsScreen extends React.Component {
 
   getChats = async () => {
     getUserChats(this.props.screenProps.user.user_id + 'Gimli').then(res => {
-      this.setState(() => {
-        return {
-          joinedChats: res,
-        };
+      this.setState({
+          joinedChats: res
       });
       this.joinedArr =
           <QueryBox nav={this.navigate} items={this.state.joinedChats}/>;
@@ -43,11 +39,8 @@ export default class ChatsScreen extends React.Component {
         }
         return outputFile;
       });
-      this.setState((previousState) => {
-        return {
-          ...previousState.joinedChats,
-          userFiles: userChats,
-        };
+      this.setState({
+          userFiles: userChats
       });
       this.chatArr =
           <QueryBox nav={this.navigate} items={this.state.userFiles}/>;
