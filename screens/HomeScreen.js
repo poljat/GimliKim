@@ -20,34 +20,53 @@ export default class HomeScreen extends React.Component {
   state = {
     search: '',
     toggle:false,
+    queries:this.props.screenProps.queries,
   };
+
   updateSearch = search => {
     this.setState({search:search} );
+    this.search(search)
   };
 
+  search=(search)=>{
+    const query=[];
+    const queries=this.props.screenProps.queries;
+  queries.map((items) => {
+    console.log(items.title)
+    const q = ((items.title).toUpperCase()).includes((search.toUpperCase()));
+   console.log(q)
+    if (q === true) {
+      console.log('lisätty')
+      query.push(items)
+    }else{
+      console.log('ei lisätty')
+    }
+    this.setState({queries:query})
+  })}
 
-
-  openSearch() {
+  openSearch=()=> {
     this.setState({toggle: true});
-    this.search.focus();
+  setTimeout(this.focus,200)
+  }
+focus=()=>{
+  this.ref.focus()
+}
+  closeSearch=()=> {
+    if(!this.state.search) {
+      this.setState({toggle: false});
+    }
+
   }
 
-  closeSearch() {
-    this.setState({toggle: false});
-    Keyboard.dismiss
-  }
 
 navigate = (id)=>{
-  console.log(id)
-  console.log('moikkuu')
+
   this.props.navigation.navigate('Query',{id:id,})
 }
 
   render() {
-    console.log('home')
-    console.log(this.props.screenProps.queries)
-    console.log('user')
-    console.log(this.props.screenProps.user)
+
+    console.log(this.state.search)
     let search;
     if (!this.state.toggle) {
       search=   null
@@ -56,30 +75,35 @@ navigate = (id)=>{
       search =
 
           <SearchBar
-              ref={search => this.search = search}
-          lightTheme
-          searchIcon
-          clearIcon
+              ref={ref => this.ref = ref}
+              placeholder="Search"
+              onChangeText={search => {
+                this.updateSearch(search)
+              }}
+              value={this.state.search}
+              accessible={true}
+              lightTheme
+              onBlur={() => this.closeSearch()}
 
       />
-
     }
     return (
-        <TouchableWithoutFeedback onPress={() =>{this.closeSearch()}} accessible={false}>
-        <View >
+
+        <View onPress={() =>{this.closeSearch()}} accessible={true}>
           <Header
               leftComponent={{ icon: 'menu', color: '#fff' }}
               centerComponent={{ text: 'Home', style: { color: '#fff' } }}
               rightComponent={{ icon:'search', color: '#fff', onPress:() =>{ this.openSearch()} }} />
           {search}
             <ScrollView>
+
               <Button title={'vidu'} onPress={() =>console.log('vidu')} />
               <Button title={'vidu'} onPress={() =>console.log('vidu')} />
               <Button title={'vidu'} onPress={() =>console.log('vidu')} />
               <Button title={'vidu'} onPress={() =>console.log('vidu')} />
               <Button title={'vidu'} onPress={() =>console.log('vidu')} />
               <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <QueryBox nav={this.navigate} items={this.props.screenProps.queries}/>
+              <QueryBox nav={this.navigate} user={this.props.screenProps.user.user_id} items={this.state.queries}/>
               <Button title={'vidu'} onPress={() =>console.log('vidu')} />
               <Button title={'vidu'} onPress={() =>console.log('vidu')} />
               <Button title={'vidu'} onPress={() =>console.log('vidu')} />
@@ -100,7 +124,7 @@ navigate = (id)=>{
               <Button title={'vidu'} onPress={() =>console.log('vidu')} />
             </ScrollView>
         </View>
-        </TouchableWithoutFeedback>
+
     );
 
   }

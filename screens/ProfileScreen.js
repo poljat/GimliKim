@@ -1,8 +1,19 @@
 import React from 'react';
-import {SectionList, Image, StyleSheet, Text, View, Button, ScrollView} from 'react-native';
+import {
+  SectionList,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  ScrollView,
+  AsyncStorage,
+} from 'react-native';
+import PropTypes from 'prop-types'
 import {Constants} from 'expo';
 import {Card, CardTitle, CardContent, CardAction, CardButton, CardImage} from 'react-native-cards';
 import {SimpleAnimation} from "react-native-simple-animations";
+import SignInScreen from './SignInScreen';
 
 const mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
@@ -12,6 +23,19 @@ export default class ProfileScreen extends React.Component {
     title: 'Profile',
   };
 
+  logout= async()=> {
+     this.props.navigation.navigate('Auth')
+    this.removeData()
+
+  }
+  removeData = async () => {
+    try {
+     this.props.screenProps.logOut();
+      await AsyncStorage.removeItem('token' );
+    } catch (error) {
+      // Error saving data
+    }
+  };
   render() {
     const {username, email, full_name, profilePic} = this.props.screenProps.user;
     const arr = this.props.screenProps.queries[0];
@@ -19,6 +43,7 @@ export default class ProfileScreen extends React.Component {
 
     console.log("PROPS");
     console.log(this.props.screenProps.queries);
+
 
 
     return (
@@ -48,7 +73,7 @@ export default class ProfileScreen extends React.Component {
                   separator={true}
                   inColumn={false}>
                 <CardButton
-                    onPress={() => this.props.navigation.navigate('Auth')}
+                    onPress={() => this.logout()}
                     title="Logout"
                     color="#FEB557"
                 />
@@ -59,6 +84,10 @@ export default class ProfileScreen extends React.Component {
     )
 
   }
+};
+ProfileScreen.propTypes = {
+  logOut: PropTypes.func,
+  user: PropTypes.object
 };
 
 const styles = StyleSheet.create({

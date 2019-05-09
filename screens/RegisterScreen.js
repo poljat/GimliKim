@@ -13,6 +13,7 @@ import {
 import {login, register, getUser, checkUser} from '../utils/MediaAPI';
 import {LinearGradient} from "expo";
 
+
 export default class SignInScreen extends Component {
     static navigationOptions = {
         header:null,
@@ -44,14 +45,20 @@ export default class SignInScreen extends Component {
             this.doLogin();
         });
     };
-
+  _storeData = async (token) => {
+    try {
+      await AsyncStorage.setItem('token', token);
+    } catch (error) {
+      // Error saving data
+    }
+  };
     doLogin =  () => {
         login(this.state.user.username, this.state.user.password).then(async (response) => {
             console.log(response);
             if(!response.token) {
                 alert(response.message)
             }else{
-                await AsyncStorage.setItem('token', response.token);
+              this._storeData(response.token)
                 this.props.navigation.navigate('App');
             }
         });

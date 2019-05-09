@@ -1,3 +1,4 @@
+import {AsyncStorage} from "react-native";
 
 const url = 'http://media.mw.metropolia.fi/wbma/';
 
@@ -129,27 +130,6 @@ const getDescription = (text) => {
     }
 };
 
-const getUserMedia = (token) => {
-    const settings = {
-        headers: {
-            'x-access-token': token,
-        }
-    };
-    return fetch(url + 'media/user', settings).then(res => {
-        return res.json()
-    }).then((result) => {
-        console.log(result);
-        return Promise.all(result.map(item => {
-            return fetch(url + 'media/' + item.file_id).then(response => {
-                return response.json();
-            });
-        })).then(items => {
-            console.log(items);
-            return items;
-            // save items to state
-        });
-    })
-}
 
 const deleteImg = (id) => {
     console.log(id)
@@ -165,15 +145,68 @@ const deleteImg = (id) => {
     });
 };
 
+const getUserChats = (tag) => {
+    return fetch(url + 'tags/' + tag).then(response => {
+        return response.json();
+    }).then((result) => {
+        return Promise.all(result.map(item => {
+            return fetch(url +'media/' + item.file_id).then(response => {
+                return response.json();
+            });
+        })).then(items => {
+            return items;
+        });
+
+    });
+};
+
+const handleJoin = async (file_id,user_id) => {
+    let token = await AsyncStorage.getItem('token');
+    console.log(user_id);
+        console.log(file_id);
+        const settings = {
+            method: 'POST',
+            body: JSON.stringify({ file_id: file_id, tag:user_id + "Gimli"}),
+            headers: {
+                'x-access-token': token,
+                'Content-Type': 'application/json',
+            },
+        };
+        console.log(settings);
+
+        return fetch('http://media.mw.metropolia.fi/wbma/tags', settings).then(res => {
+            return res.json();
+        }).then(json => {
+            console.log(json);
+        });
 
 
+};
 
+/*const checkTag=(id,tag)=>{
+    return fetch('http://media.mw.metropolia.fi/wbma/tags/' + tag).then(res => {
+        return res.json();
+    }).then(json => {
+        if (json[0].file_id === id) {
+            return 'true'
+
+        } else {
+            return 'false'
+
+        }
+    }).then(res=>{
+        console.log('resssss')
+        console.log(res)
+        console.log('resssss')
+        return res
+    });
+}*/
 
 
 
 export{getAllQueries}
 export{getSingleQuery}
-export{getUserMedia}
+export{getUserChats}
 export{login}
 export{register}
 export{getUser}
@@ -183,4 +216,5 @@ export{checkUser}
 export{getFilters}
 export{getDescription}
 export {deleteImg}
-
+export{handleJoin}
+/*export{checkTag}*/

@@ -16,6 +16,7 @@ import {LinearGradient} from 'expo';
 import {getUser, login} from '../utils/MediaAPI';
 
 
+
 export default class SignInScreen extends Component {
     static navigationOptions = {
  header:null,
@@ -37,21 +38,28 @@ export default class SignInScreen extends Component {
         evt.preventDefault();
         this.doLogin();
     }
+  _storeData = async (token) => {
+    try {
+      await AsyncStorage.setItem('token', token);
+    } catch (error) {
+      // Error saving data
+    }
+  };
     doLogin =  () => {
-        login(this.state.user.username, this.state.user.password).then(async (response) => {
-            console.log(response);
+        login(this.state.user.username, this.state.user.password).then( (response) => {
             if(!response.token) {
                 alert(response.message)
             }else{
-                await AsyncStorage.setItem('token', response.token);
+                console.log(response.token)
+              this._storeData(response.token)
                 this.props.screenProps.setUser(response.user)
-                this.props.navigation.navigate('App',{data:this.state});
+                this.props.navigation.navigate('App');
             }
         });
     };
     handlePasswordChange = (text) => {
 
-  console.log(text)
+
 
         this.setState(previousState => ({
             user:{
@@ -60,7 +68,7 @@ export default class SignInScreen extends Component {
     };
     handleUsernameChange = (text) => {
 
-        console.log(text)
+
         this.setState(previousState => ({
             user:{
                 ...previousState.user, username: text,
@@ -68,15 +76,13 @@ export default class SignInScreen extends Component {
     };
 
     componentDidMount() {
-        if (this.state.user === null && AsyncStorage.getItem('token') !== null) {
-            getUser(AsyncStorage.getItem('token')).then(response => {
-                this.setUser(response);
-                console.log(this.state.user)
-                console.log('moiieliii')
-            });
+      console.log('signinscreen')
+      console.log(this.props.screenProps.user )
+        if (this.props.screenProps.user !==null) {
+          this.props.navigation.navigate('App')
+        }else{
+          this.props.navigation.navigate('Auth')
         }
-
-
     }
 
 
@@ -133,6 +139,7 @@ export default class SignInScreen extends Component {
 
 SignInScreen.propTypes = {
     setUser: PropTypes.func,
+    user: PropTypes.object
 };
 
 const styles = StyleSheet.create({

@@ -18,11 +18,12 @@ import {getUser,getAllQueries} from './utils/MediaAPI';
 
      setUser = (user) => {
          this.setState({
-             user: user
+             user: user,
+              signedIn: true
 
 
          });
-         console.log(this.state);
+
 
         /* const profId = this.state.user.info.user_id;
          //hea profiilikuva ja siitä se user-objektiin
@@ -44,17 +45,39 @@ import {getUser,getAllQueries} from './utils/MediaAPI';
 
          })
      }
-   componentDidMount() {
-         this.getQueries()
-     if (this.state.user === null && AsyncStorage.getItem('token') !== null) {
-       getUser(AsyncStorage.getItem('token')).then(response => {
-         this.setUser(response);
-         console.log(this.state.user)
-       });
+   _retrieveData = async () => {
+     try {
+       const value = await AsyncStorage.getItem('token');
+       if (value !== null) {
+         // We have data!!
+         console.log(value);
+         return value
+       }
+     } catch (error) {
+       // Error retrieving data
      }
-
-
+   };
+logOut=()=>{
+  this.setState({
+    user: null,
+    signedIn: false
+  })
+}
+   componentDidMount() {
+     this.getQueries()
+     if (this.state.user === null  ) {
+       this._retrieveData().then(result=>{console.log(result)
+         getUser(result).then(response => {
+         console.log('app')
+         console.log(response)
+         if(response !==null){
+             this.setUser(response);
+         }
+       })
+       })
+     }
    }
+
 
    _loadResourcesAsync = async () => {
      return Promise.all([
@@ -97,7 +120,8 @@ import {getUser,getAllQueries} from './utils/MediaAPI';
           <AppNavigator screenProps={{
               setUser:this.setUser,
           user:this.state.user,
-          queries:this.state.items}} />
+          queries:this.state.items,
+          logOut:this.logOut}} />
         </View>
       );
     }

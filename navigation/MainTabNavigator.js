@@ -55,7 +55,9 @@ ProfileStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-    ChatStack,
-    HomeStack,
-    ProfileStack,
+    chat:ChatStack,
+    home:HomeStack,
+    prof:ProfileStack,
+},{
+    initialRouteName: "home",
 });
