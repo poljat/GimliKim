@@ -13,7 +13,6 @@ import {
 import {login, register, getUser, checkUser} from '../utils/MediaAPI';
 import {LinearGradient} from "expo";
 
-
 export default class SignInScreen extends Component {
     static navigationOptions = {
         header:null,
@@ -45,20 +44,14 @@ export default class SignInScreen extends Component {
             this.doLogin();
         });
     };
-  _storeData = async (token) => {
-    try {
-      await AsyncStorage.setItem('token', token);
-    } catch (error) {
-      // Error saving data
-    }
-  };
+
     doLogin =  () => {
         login(this.state.user.username, this.state.user.password).then(async (response) => {
             console.log(response);
             if(!response.token) {
                 alert(response.message)
             }else{
-              this._storeData(response.token)
+                await AsyncStorage.setItem('token', response.token);
                 this.props.navigation.navigate('App');
             }
         });
@@ -115,84 +108,78 @@ export default class SignInScreen extends Component {
                 end={{x: 1, y: 1}}
             >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                <View style={styles.container}>
-                    <Text style={styles.titleText}>Welcome To</Text>
-                    <Text style={styles.titleText}>GimliKim!</Text>
-                    <TextInput
-                        name={'username'}
-                        value={this.state.user.username}
-                        onChangeText={(text) => {
-                            this.handleUsernameChange(text)
-                        }}
-                        placeholder={'username'}
-                        placeholderTextColor='white'
-                        style={styles.input}
-                    />
-                    <TextInput
-                        name={'password'}
-                        value={this.state.user.password}
-                        onChangeText={(text) => {
-                            this.handlePasswordChange(text)
-                        }}
-                        placeholder={'password'}
-                        secureTextEntry={true}
-                        placeholderTextColor='white'
-                        style={styles.input}
-                    />
-
-                    <TextInput
-                        value={this.state.user.repeatPassword}
-                        onChangeText={(text) => {
-                            this.handleRepeatPasswordChange(text)
-                        }}
-                        placeholder={'repeat password'}
-                        secureTextEntry={true}
-                        placeholderTextColor='white'
-                        style={styles.input}
-                    />
-                    <TextInput
-
-                        keyboardType='email-address'
-                        value={this.state.user.email}
-                        onChangeText={(text) => {
-                            this.handleEmailChange(text)
-                        }}
-                        placeholder={'email'}
-                        secureTextEntry={true}
-                        placeholderTextColor='white'
-                        style={styles.input}
-                    />
-                    <TextInput
-
-                        value={this.state.user.full_name}
-                        onChangeText={(text) => {
-                            this.handleFullNameChange(text)
-                        }}
-                        placeholder={'full name'}
-                        secureTextEntry={true}
-                        placeholderTextColor='white'
-                        style={styles.input}
-                    />
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={this.onRegister.bind(this)}
-                    >
-                        <Text style={styles.buttonText}>Sign Up</Text>
-                    </TouchableOpacity>
-
-                </View>
+                    <View style={styles.container}>
+                        <Text style={styles.titleText}>Welcome To</Text>
+                        <Text style={styles.titleText}>pond'o!</Text>
+                        <TextInput
+                            name={'username'}
+                            value={this.state.user.username}
+                            onChangeText={(text) => {
+                                this.handleUsernameChange(text)
+                            }}
+                            placeholder={'username'}
+                            placeholderTextColor='white'
+                            style={styles.input}
+                        />
+                        <TextInput
+                            name={'password'}
+                            value={this.state.user.password}
+                            onChangeText={(text) => {
+                                this.handlePasswordChange(text)
+                            }}
+                            placeholder={'password'}
+                            secureTextEntry={true}
+                            placeholderTextColor='white'
+                            style={styles.input}
+                        />
+                        <TextInput
+                            value={this.state.user.repeatPassword}
+                            onChangeText={(text) => {
+                                this.handleRepeatPasswordChange(text)
+                            }}
+                            placeholder={'repeat password'}
+                            secureTextEntry={true}
+                            placeholderTextColor='white'
+                            style={styles.input}
+                        />
+                        <TextInput
+                            keyboardType='email-address'
+                            value={this.state.user.email}
+                            onChangeText={(text) => {
+                                this.handleEmailChange(text)
+                            }}
+                            placeholder={'email'}
+                            secureTextEntry={true}
+                            placeholderTextColor='white'
+                            style={styles.input}
+                        />
+                        <TextInput
+                            value={this.state.user.full_name}
+                            onChangeText={(text) => {
+                                this.handleFullNameChange(text)
+                            }}
+                            placeholder={'full name'}
+                            secureTextEntry={true}
+                            placeholderTextColor='white'
+                            style={styles.input}
+                        />
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={this.onRegister.bind(this)}
+                        >
+                            <Text style={styles.buttonText}>Sign Up</Text>
+                        </TouchableOpacity>
+                    </View>
                 </TouchableWithoutFeedback>
             </LinearGradient>
         );
     }
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-
     },
     titleText: {
         fontSize: 40,
@@ -212,7 +199,6 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: "white",
-
         fontSize: 20,
         alignItems: 'center',
         justifyContent: 'center',

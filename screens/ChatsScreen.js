@@ -1,19 +1,15 @@
 import React from 'react';
-import {
-    View,
-    StyleSheet,
-    AsyncStorage,
-    Text,
-    Image,
-    Platform, ScrollView,
-} from 'react-native';
+import {ScrollView, StyleSheet, Text, View,} from 'react-native';
 import {getUserChats} from '../utils/MediaAPI';
 import QueryBox from '../components/QueryBox';
 import {SimpleAnimation} from 'react-native-simple-animations';
+import {Header} from "react-native-elements";
+import ProfileScreen from "./ProfileScreen";
+import PropTypes from "prop-types";
 
 export default class ChatsScreen extends React.Component {
     static navigationOptions = {
-        title: 'Chats',
+        header: null,
     };
 
     chatArr;
@@ -24,14 +20,24 @@ export default class ChatsScreen extends React.Component {
         joinedChats: '',
     };
 
+    navigate = (id) => {
+
+        this.props.navigation.navigate('Query', {id: id});
+    };
+
     getChats = async () => {
         getUserChats(this.props.screenProps.user.user_id + 'Gimli').then(res => {
             this.setState( {
               joinedChats: res,
-
             });
-            this.joinedArr =
-                <QueryBox nav={this.navigate} items={this.state.joinedChats}/>;
+            if (this.state.joinedChats.length <= 0) {
+                this.joinedArr =
+                    <Text style={styles.empty}>Nothing here</Text>;
+            } else {
+                this.joinedArr =
+                    <QueryBox loc={'chats'} nav={this.navigate} user={this.props.screenProps.user.user_id} items={this.state.joinedChats}/>;
+                this.found=1;
+            }
         });
 
         getUserChats('GimliKim').then((files) => {
@@ -43,15 +49,23 @@ export default class ChatsScreen extends React.Component {
                 return outputFile;
             });
             this.setState({
-
                     userFiles: userChats,
-
             });
-            this.chatArr =
-                <QueryBox nav={this.navigate} items={this.state.userFiles}/>;
+            if (this.state.userFiles.length <= 0) {
+                this.chatArr =
+                    <Text style={styles.empty}>It sure feels empty here...</Text>;
+            } else {
+                this.chatArr =
+                    <QueryBox loc={'chats'} nav={this.navigate} user={this.props.screenProps.user.user_id} items={this.state.userFiles}/>;
+                this.found=1;
+            }
         });
 
     };
+    componentDidMount() {
+        this.props.screenProps.setLocation('chats')
+        console.log(this.props.screenProps.location)
+    }
 
     render() {
         if (this.state.userFiles.length <= 0 || this.state.joinedChats.length <=
@@ -59,6 +73,13 @@ export default class ChatsScreen extends React.Component {
             this.getChats();
         }
         return (
+            <View>
+                <Header
+                    containerStyle={{
+                        backgroundColor: '#56b69b',
+                    }}
+                    centerComponent={{text: 'Chats', style: {color: 'white', fontSize: 20}}}
+                />
             <SimpleAnimation
                 delay={500}
                 fade
@@ -70,16 +91,19 @@ export default class ChatsScreen extends React.Component {
                 direction="left"
             >
                 <ScrollView>
-                    <Text style={styles.titleText}>Your chats</Text>
                     {this.chatArr}
-                    <Text style={styles.titleText}>Joined chats</Text>
                     {this.joinedArr}
                 </ScrollView>
             </SimpleAnimation>
+            </View>
         );
     }
 }
+ChatsScreen.propTypes = {
+    setLocation: PropTypes.func,
+    location: PropTypes.object
 
+};
 const styles = StyleSheet.create({
     container: {
         flex: 1,

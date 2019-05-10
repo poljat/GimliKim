@@ -3,73 +3,81 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
-  View, Button, FlatList, Text, Image, Keyboard, TouchableWithoutFeedback
+  View,  TouchableWithoutFeedback, RefreshControl,
 } from 'react-native';
 import {Header, SearchBar} from 'react-native-elements';
-import QueryBox from '../components/QueryBox'
-import {SimpleAnimation} from "react-native-simple-animations";
-
-
+import QueryBox from '../components/QueryBox';
+import PropTypes from "prop-types";
+import ProfileScreen from "./ProfileScreen";
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
-    header:null,
+    header: null,
 
   };
   state = {
     search: '',
-    toggle:false,
-    queries:this.props.screenProps.queries,
+    toggle: false,
+    queries: this.props.screenProps.queries,
+    refreshing: false,
   };
 
   updateSearch = search => {
-    this.setState({search:search} );
-    this.search(search)
+    this.setState({search: search});
+    this.search(search);
   };
 
-  search=(search)=>{
-    const query=[];
-    const queries=this.props.screenProps.queries;
-  queries.map((items) => {
-    console.log(items.title)
-    const q = ((items.title).toUpperCase()).includes((search.toUpperCase()));
-   console.log(q)
-    if (q === true) {
-      console.log('lisätty')
-      query.push(items)
-    }else{
-      console.log('ei lisätty')
-    }
-    this.setState({queries:query})
-  })}
+  search = (search) => {
+    const query = [];
+    const queries = this.props.screenProps.queries;
+    queries.map((items) => {
 
-  openSearch=()=> {
+      const q = ((items.title).toUpperCase()).includes((search.toUpperCase()));
+
+      if (q === true) {
+        query.push(items);
+      } else {
+      }
+      this.setState({queries: query});
+    });
+  };
+
+  openSearch = () => {
     this.setState({toggle: true});
-  setTimeout(this.focus,200)
-  }
-focus=()=>{
-  this.ref.focus()
-}
-  closeSearch=()=> {
-    if(!this.state.search) {
+    setTimeout(this.focus, 200);
+  };
+  focus = () => {
+    this.ref.focus();
+  };
+  closeSearch = () => {
+    if (!this.state.search) {
       this.setState({toggle: false});
     }
 
+  };
+
+  navigate = (id) => {
+
+    this.props.navigation.navigate('Query', {id: id});
+  };
+
+  _onRefresh = () => {
+    this.setState({refreshing: true});
+    this.props.screenProps.refresh().then(() => {
+      this.setState({refreshing: false});
+    });
+  }
+  componentDidMount() {
+      this.props.screenProps.setLocation('home')
+      console.log(this.props.screenProps.location)
   }
 
+    render() {
 
-navigate = (id)=>{
 
-  this.props.navigation.navigate('Query',{id:id,})
-}
-
-  render() {
-
-    console.log(this.state.search)
     let search;
     if (!this.state.toggle) {
-      search=   null
+      search = null;
 
     } else {
       search =
@@ -78,68 +86,64 @@ navigate = (id)=>{
               ref={ref => this.ref = ref}
               placeholder="Search"
               onChangeText={search => {
-                this.updateSearch(search)
+                this.updateSearch(search);
               }}
               value={this.state.search}
               accessible={true}
               lightTheme
               onBlur={() => this.closeSearch()}
 
-      />
+          />;
     }
     return (
 
-        <View onPress={() =>{this.closeSearch()}} accessible={true}>
-          <Header
-              leftComponent={{ icon: 'menu', color: '#fff' }}
-              centerComponent={{ text: 'Home', style: { color: '#fff' } }}
-              rightComponent={{ icon:'search', color: '#fff', onPress:() =>{ this.openSearch()} }} />
-          {search}
-            <ScrollView>
+        <TouchableWithoutFeedback onPress={() => {
+          this.closeSearch();
+        }} accessible={false}>
+          <View>
 
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <QueryBox nav={this.navigate} user={this.props.screenProps.user.user_id} items={this.state.queries}/>
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
-              <Button title={'vidu'} onPress={() =>console.log('vidu')} />
+            <ScrollView refreshControl={
+              <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh}/>
+            }>
+              <Header
+                  containerStyle={{
+                    backgroundColor: '#92bab2',
+                  }}
+                  rightComponent={{icon: 'add', color: '#fff',onPress:()=>{this.props.navigation.navigate("Submit")}}}
+                  centerComponent={{
+                    text: 'Home',
+                    style: {color: '#fff', fontSize: 20},
+                  }}
+                  leftComponent={{
+                    icon: 'search', color: '#fff', onPress: () => {
+                      this.openSearch();
+                    },
+                  }}/>
+              {search}
+              <QueryBox nav={this.navigate}
+                        user={this.props.screenProps.user.user_id}
+                        items={this.props.screenProps.queries}/>
             </ScrollView>
-        </View>
-
+          </View>
+        </TouchableWithoutFeedback>
     );
 
   }
 }
+ProfileScreen.propTypes = {
+  setLocation: PropTypes.func,
+    location: PropTypes.object
 
-
-
-
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
   },
-  none:{
-    display:null,
+  none: {
+    display: null,
   },
   developmentModeText: {
     marginBottom: 20,

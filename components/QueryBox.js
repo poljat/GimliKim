@@ -1,17 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {
-    Image,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableNativeFeedback,
-    TouchableOpacity,
-    View, Button
-} from 'react-native';
-import {handleJoin, checkTag} from "../utils/MediaAPI";
-import {Card, CardTitle, CardContent, CardAction, CardButton, CardImage} from 'react-native-cards';
+import {StyleSheet, Text, TouchableNativeFeedback, View} from 'react-native';
+import {Card, CardAction, CardButton, CardContent, CardImage} from 'react-native-cards';
+import {handleJoin} from '../utils/MediaAPI';
 
 const mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
@@ -40,62 +31,75 @@ const styles = StyleSheet.create({
     cardButton: {
         flex: 1,
         justifyContent: "space-between"
-    }
+    },
+    titleStyle: {
+        fontSize: 26,
+        padding: 5,
+
+    },
 });
 
 
 class QueryBox extends Component {
     state={
-        boolean:false,
+        chat:this.props.loc,
     }
+
     openQuery = (id) => {
 
-        this.props.nav(id)
-    }
+    const chat = this.state.chat;
+    this.props.nav(id,chat);
+
+    };
 
     join = (id) => {
-        const user = this.props.user
+        const user = this.props.user;
         handleJoin(id, user).then(res => {
-            console.log(res)
+
             this.openQuery(id)
         })
-    }
+    };
 
+    button=()=>{
+
+        if(this.state.chat==='chats'){
+            return  <CardAction
+                style={styles.cardButton}
+                separator={true}
+                inColumn={false}>
+             <Text >Joined</Text>
+            </CardAction>
+        }else{
+            return <CardAction
+            style={styles.cardButton}
+            separator={true}
+            inColumn={false}>
+            <CardButton
+                onPress={() => this.join(items.file_id)}
+                title="Join Group"
+                color="#FEB557"
+            />
+        </CardAction>
+        }
+    }
 
 
     render() {
-
-        return this.props.items.map((items, i) => (
+        return this.props.items.slice(0).reverse().map((items, i) => (
 
             <TouchableNativeFeedback key={i} style={styles.view} onPress={() => this.openQuery(items.file_id)}>
                 <View>
                     <Card>
                         <CardImage
-                            source={{uri: mediaUrl + items.thumbnails.w160}}
-                            title={items.title}
+                            source={{uri: mediaUrl + items.filename}}
                             description={items.description}
                         >
                             <CardContent text={items.title}/>
                             <CardContent text={items.description}/>
                         </CardImage>
 
-
-                        <CardAction
-                            style={styles.cardButton}
-                            separator={true}
-                            inColumn={false}>
-                            <CardButton
-                                onPress={() => console.log("UPVOTE")}
-                                title="Details"
-                                color="#FEB557"
-                            />
-                           <CardButton
-                            onPress={() => this.join(items.file_id)}
-                            title="Join"
-                            color="#FEB557"
-                        />
-
-                        </CardAction>
+                        <Text style={styles.titleStyle}>{items.title}</Text>
+                        {this.button()}
                     </Card>
                 </View>
 
@@ -108,8 +112,8 @@ class QueryBox extends Component {
 
 QueryBox.propTypes = {
     items: PropTypes.array,
-    nav: PropTypes.func
-}
+    nav: PropTypes.func,
+    loc:PropTypes.string
+};
 
 export default QueryBox;
-

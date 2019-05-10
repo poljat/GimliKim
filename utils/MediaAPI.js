@@ -88,7 +88,7 @@ const getUser = (token) => {
     });
 }
 const getUserId = (userId,token) => {
-    console.log(userId)
+
     const settings = {
         headers: {
             'x-access-token': token,
@@ -100,7 +100,7 @@ const getUserId = (userId,token) => {
     });
 }
 const checkUser = (name) => {
-    console.log(name)
+
     return fetch(url + 'users/username/' + name  ).then(response => {
 
         return response.json();
@@ -118,21 +118,20 @@ const getFilters = (text) => {
     }
 };
 const getDescription = (text) => {
-    console.log(text)
+
     const pattern = '\\[d\\](.*?)\\[\\/d\\]';
     const re = new RegExp(pattern);
     try {
-        console.log((re.exec(text)[1]))
         return re.exec(text)[1];
     } catch (e) {
-        console.log(e);
+
         return text
     }
 };
 
 
 const deleteImg = (id) => {
-    console.log(id)
+
     const token = localStorage.getItem('token');
     const settings = {
         method: 'DELETE',
@@ -162,8 +161,6 @@ const getUserChats = (tag) => {
 
 const handleJoin = async (file_id,user_id) => {
     let token = await AsyncStorage.getItem('token');
-    console.log(user_id);
-        console.log(file_id);
         const settings = {
             method: 'POST',
             body: JSON.stringify({ file_id: file_id, tag:user_id + "Gimli"}),
@@ -172,14 +169,51 @@ const handleJoin = async (file_id,user_id) => {
                 'Content-Type': 'application/json',
             },
         };
-        console.log(settings);
-
-        return fetch('http://media.mw.metropolia.fi/wbma/tags', settings).then(res => {
+        let sameTag = 0;
+        return fetch("http://media.mw.metropolia.fi/wbma/tags/file/" + file_id).then(res=> {
             return res.json();
         }).then(json => {
-            console.log(json);
-        });
+            json.map(data => {
+                if (data.tag === user_id + "Gimli") {
+                    sameTag=1;
+                }
+            });
+            if (sameTag === 0) {
+                return fetch('http://media.mw.metropolia.fi/wbma/tags', settings).then(res => {
+                    return res.json();
+                }).then(json => {
 
+                });
+            } else {
+                console.log("Already in this chat");
+            }
+        })
+};
+
+const newComment = (com, id, token) => {
+    const settings = {
+        method: 'POST',
+        body: JSON.stringify({file_id: id, comment: com}),
+        headers: {
+            'x-access-token': token,
+            'Content-Type': 'application/json',
+        },
+    };
+
+    return fetch(url + 'comments', settings).then(response => {
+        return response.json();
+
+    }).catch(function (error) {
+        console.log(error)
+    })
+};
+
+const getComments = (id) => {
+
+
+    return fetch(url + 'comments/file/' + id).then(response => {
+        return response.json();
+    })
 
 };
 
@@ -217,4 +251,6 @@ export{getFilters}
 export{getDescription}
 export {deleteImg}
 export{handleJoin}
+export{newComment}
+export{getComments}
 /*export{checkTag}*/

@@ -20,6 +20,7 @@
     "react-native-autofocus": "^0.0.7",
     "react-native-cards": "^1.1.4",
     "react-native-elements": "^1.1.0",
+    "react-native-material-cards": "^1.0.9",
     "react-native-paper": "^2.15.2",
     "react-native-simple-animations": "^0.2.0",
     "react-navigation": "^3.9.0"
