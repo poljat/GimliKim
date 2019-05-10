@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "pond'o",
-    "slug": "pond'o",
+    "slug": "pondo",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
@@ -10,7 +10,7 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./components/WhatsApp Image 2019-05-06 at 20.50.57.jpeg",
+    "icon": "./components/audioVideo.png",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",

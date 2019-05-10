@@ -34,7 +34,7 @@ export default class ProfileScreen extends React.Component {
     const {username, email, full_name} = this.props.screenProps.user;
     const arr = this.props.screenProps.queries[0];
     let profilePicture;
-    if(!this.props.screenProps.profPic.filename){
+    if(!this.props.screenProps.profPic){
       profilePicture = arr.filename;
     }else{
       profilePicture = this.props.screenProps.profPic.filename;
@@ -93,7 +93,8 @@ export default class ProfileScreen extends React.Component {
 };
 ProfileScreen.propTypes = {
   logOut: PropTypes.func,
-  user: PropTypes.object
+  user: PropTypes.object,
+  profPic: PropTypes.object
 };
 
 const styles = StyleSheet.create({

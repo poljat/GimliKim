@@ -63,7 +63,7 @@ export default class QueryScreen extends React.Component {
   }
 navigate=()=>{
   const chat = this.props.screenProps.location;
-  console.log(chat)
+
 if(chat==='chats') {
   this.props.navigation.navigate('chat')
 }else{
@@ -72,7 +72,6 @@ if(chat==='chats') {
 }
   render() {
 
-    console.log(this.props.navigation.getParam('id'))
     const {description, filename, title, user_id} = this.state.query;
     const postersusername = this.state.postsUsername.username;
 

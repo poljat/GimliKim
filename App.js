@@ -66,6 +66,9 @@ setLocation=(location)=>{
         })
     }
     componentDidMount() {
+        this._loadResourcesAsync();
+        this._handleLoadingError();
+        this._handleFinishLoading()
         this.getQueries()
         if (this.state.user === null  ) {
             this._retrieveData().then(result=>{
@@ -106,15 +109,7 @@ setLocation=(location)=>{
         this.setState({ isLoadingComplete: true });
     };
     render() {
-        if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
-            return (
-                <AppLoading
-                    startAsync={this._loadResourcesAsync}
-                    onError={this._handleLoadingError}
-                    onFinish={this._handleFinishLoading}
-                />
-            );
-        } else {
+
             return (
                 <View style={styles.container}>
                     {Platform.OS === 'android' && <StatusBar barStyle="default" />}
@@ -129,7 +124,7 @@ setLocation=(location)=>{
                 </View>
             );
         }
-    }
+
 
 
 }

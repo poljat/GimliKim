@@ -4,7 +4,7 @@ import {getUserChats} from '../utils/MediaAPI';
 import QueryBox from '../components/QueryBox';
 import {SimpleAnimation} from 'react-native-simple-animations';
 import {Header} from "react-native-elements";
-import ProfileScreen from "./ProfileScreen";
+
 import PropTypes from "prop-types";
 
 export default class ChatsScreen extends React.Component {
@@ -30,14 +30,10 @@ export default class ChatsScreen extends React.Component {
             this.setState( {
               joinedChats: res,
             });
-            if (this.state.joinedChats.length <= 0) {
-                this.joinedArr =
-                    <Text style={styles.empty}>Nothing here</Text>;
-            } else {
+
                 this.joinedArr =
                     <QueryBox loc={'chats'} nav={this.navigate} user={this.props.screenProps.user.user_id} items={this.state.joinedChats}/>;
-                this.found=1;
-            }
+
         });
 
         getUserChats('GimliKim').then((files) => {
@@ -51,20 +47,16 @@ export default class ChatsScreen extends React.Component {
             this.setState({
                     userFiles: userChats,
             });
-            if (this.state.userFiles.length <= 0) {
-                this.chatArr =
-                    <Text style={styles.empty}>It sure feels empty here...</Text>;
-            } else {
+
                 this.chatArr =
                     <QueryBox loc={'chats'} nav={this.navigate} user={this.props.screenProps.user.user_id} items={this.state.userFiles}/>;
-                this.found=1;
-            }
+
+
         });
 
     };
     componentDidMount() {
         this.props.screenProps.setLocation('chats')
-        console.log(this.props.screenProps.location)
     }
 
     render() {
@@ -74,6 +66,7 @@ export default class ChatsScreen extends React.Component {
         }
         return (
             <View>
+                <ScrollView>
                 <Header
                     containerStyle={{
                         backgroundColor: '#56b69b',
@@ -81,20 +74,20 @@ export default class ChatsScreen extends React.Component {
                     centerComponent={{text: 'Chats', style: {color: 'white', fontSize: 20}}}
                 />
             <SimpleAnimation
-                delay={500}
                 fade
                 duration={1000}
                 friction={20}
                 tension={5}
                 distance={500}
                 movementType="spring"
-                direction="left"
+                direction="down"
             >
-                <ScrollView>
+
                     {this.chatArr}
                     {this.joinedArr}
-                </ScrollView>
             </SimpleAnimation>
+                </ScrollView>
+
             </View>
         );
     }

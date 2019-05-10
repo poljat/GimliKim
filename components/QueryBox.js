@@ -60,14 +60,14 @@ class QueryBox extends Component {
         })
     };
 
-    button=()=>{
+    button=(file_id)=>{
 
         if(this.state.chat==='chats'){
             return  <CardAction
                 style={styles.cardButton}
                 separator={true}
                 inColumn={false}>
-             <Text >Joined</Text>
+             <Text style={{color:"#FEB557",margin:2,padding:2}} >Joined</Text>
             </CardAction>
         }else{
             return <CardAction
@@ -75,7 +75,7 @@ class QueryBox extends Component {
             separator={true}
             inColumn={false}>
             <CardButton
-                onPress={() => this.join(items.file_id)}
+                onPress={() => this.join(file_id)}
                 title="Join Group"
                 color="#FEB557"
             />
@@ -99,7 +99,7 @@ class QueryBox extends Component {
                         </CardImage>
 
                         <Text style={styles.titleStyle}>{items.title}</Text>
-                        {this.button()}
+                        {this.button(items.file_id)}
                     </Card>
                 </View>
 

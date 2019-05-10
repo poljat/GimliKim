@@ -9,6 +9,7 @@ import {Header, SearchBar} from 'react-native-elements';
 import QueryBox from '../components/QueryBox';
 import PropTypes from "prop-types";
 import ProfileScreen from "./ProfileScreen";
+import {SimpleAnimation} from "react-native-simple-animations";
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -61,15 +62,13 @@ export default class HomeScreen extends React.Component {
     this.props.navigation.navigate('Query', {id: id});
   };
 
-  _onRefresh = () => {
-    this.setState({refreshing: true});
-    this.props.screenProps.refresh().then(() => {
-      this.setState({refreshing: false});
-    });
-  }
+
   componentDidMount() {
       this.props.screenProps.setLocation('home')
-      console.log(this.props.screenProps.location)
+    if(!this.props.screenProps.user){
+      this.props.navigation.navigate('Auth');
+    }
+
   }
 
     render() {
@@ -102,11 +101,7 @@ export default class HomeScreen extends React.Component {
         }} accessible={false}>
           <View>
 
-            <ScrollView refreshControl={
-              <RefreshControl
-                  refreshing={this.state.refreshing}
-                  onRefresh={this._onRefresh}/>
-            }>
+            <ScrollView >
               <Header
                   containerStyle={{
                     backgroundColor: '#92bab2',
@@ -122,9 +117,19 @@ export default class HomeScreen extends React.Component {
                     },
                   }}/>
               {search}
+              <SimpleAnimation
+                  fade
+                  duration={1000}
+                  friction={20}
+                  tension={5}
+                  distance={500}
+                  movementType="spring"
+                  direction="down"
+              >
               <QueryBox nav={this.navigate}
                         user={this.props.screenProps.user.user_id}
-                        items={this.props.screenProps.queries}/>
+                        items={this.state.queries}/>
+              </SimpleAnimation>
             </ScrollView>
           </View>
         </TouchableWithoutFeedback>

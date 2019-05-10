@@ -169,6 +169,7 @@ export default class SignInScreen extends Component {
                         >
                             <Text style={styles.buttonText}>Sign Up</Text>
                         </TouchableOpacity>
+                        <Text style={{color:'white'}} onPress={() => this.props.navigation.navigate('Register')}>Login</Text>
                     </View>
                 </TouchableWithoutFeedback>
             </LinearGradient>
